@@ -6,14 +6,14 @@
 
 源页面参考 [mini-project description](https://class.coursera.org/algorithmicthink-001/wiki/graph_degree).
 
-作业代码参考 [project-1.py]().
+实现代码参考 [project-1.py](https://github.com/HexTeto/algorithmic-thinking/blob/master/src/project-1-devel.py).
 
 要求用字典表示一些简单的图, 并实现两个函数计算计算这些图中 "in-degrees" 的分布.
 这些函数会用来实现 `module-1` 中的部分功能, 此外提交的代码使用 Python 2.x 版本.
 
 ### Representing directed graphs
 
-关于如何在 Python 中如何使用字典结构来描述一个有向图参考 [1-2-graph-basic]().
+关于如何在 Python 中如何使用字典结构来描述一个有向图参考 [1-2-graph-basic](https://github.com/HexTeto/algorithmic-thinking/blob/master/material/1-2-graph-basics.pdf).
 
 用常量定义 `EX_GRAPH0`, `EX_GRAPH1`, `EX_GRAPH2`. 它们用来执行单元测试.
 
