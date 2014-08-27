@@ -52,16 +52,12 @@ def compute_in_degrees(digraph):
     Output:
         digraph = {node: the nubmer of edges, ...}
     """
-    # 貌似 codeskulptor 的编译器不允许这种写法?
-    # res = {node: 0 for node in digraph.keys()}
-    res = {}
-    for node in digraph.keys():
-        res[node] = 0
-    for odegree, idegress in digraph.items():
-        for idegree in idegress:
-            if idegree not in res.keys():
-                res[idegree] = 1
-            res[idegree] += 1
+    res = {node: 0 for node in digraph.keys()}
+    for indegress in digraph.values():
+        for indegree in indegress:
+            if indegree not in res.keys():
+                res[indegree] = 1
+            res[indegree] += 1
     return res
 
 
@@ -74,7 +70,13 @@ def in_degree_distribution(digraph):
     Output:
         digraph = {in-degree: number of nodes}
     """
-    pass
+    digraph = compute_in_degrees(digraph)
+    distribution = {}
+    for count in digraph.values():
+        if count not in distribution.keys():
+            distribution[count] = 0
+        distribution[count] += 1
+    return distribution
 
 
 if __name__ == '__main__':
@@ -94,3 +96,10 @@ if __name__ == '__main__':
         print(compute_in_degrees(EX_GRAPH0))
         print(compute_in_degrees(EX_GRAPH1))
         print(compute_in_degrees(EX_GRAPH2))
+
+    if sys.argv[1] == "-i":
+        print("Test function in_degree_distribution()")
+        print(in_degree_distribution({}))
+        print(in_degree_distribution(EX_GRAPH0))
+        print(in_degree_distribution(EX_GRAPH1))
+        print(in_degree_distribution(EX_GRAPH2))
