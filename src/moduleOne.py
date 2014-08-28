@@ -1,7 +1,7 @@
 def loadGraph(originalData):
     data_lines = []
     digraph = {}
-    
+
     with open(originalData) as f:
         for line in f.readlines():
             data_lines.append(line[ : -1])
@@ -56,7 +56,7 @@ def calc(filename):
 if __name__ == "__main__":
     import scipy
     import matplotlib.pyplot as plt
-    dis = calc("alg_phys-cite.txt")
+    dis = calc("testfile.txt")
     x = []
     y = []
     for k, v in dis.items():
