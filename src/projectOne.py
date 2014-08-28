@@ -53,8 +53,8 @@ def compute_in_degrees(digraph):
         digraph = {node: the nubmer of edges, ...}
     """
     res = {node: 0 for node in digraph.keys()}
-    for indegress in digraph.values():
-        for indegree in indegress:
+    for indegrees in digraph.values():
+        for indegree in indegrees:
             if indegree not in res.keys():
                 res[indegree] = 1
             res[indegree] += 1
