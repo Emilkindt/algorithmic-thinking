@@ -54,14 +54,13 @@ def calc(filename):
     return distribution
 
 if __name__ == "__main__":
-    from math import log
     import scipy
     import matplotlib.pyplot as plt
     dis = calc("alg_phys-cite.txt")
     x = []
     y = []
     for k, v in dis.items():
-        x.append(log(k))
+        x.append(k)
         y.append(v)
     x = scipy.array(x)
     y = scipy.array(y)
