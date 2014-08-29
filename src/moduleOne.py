@@ -56,7 +56,8 @@ def calc(filename):
 if __name__ == "__main__":
     import scipy
     import matplotlib.pyplot as plt
-    dis = calc("testfile.txt")
+    dis = calc("alg_phys-cite.txt")
+    print(dis)
     x = []
     y = []
     for k, v in dis.items():
@@ -67,8 +68,8 @@ if __name__ == "__main__":
 
 
     plt.title("citation relationship")
-    plt.xlabel("cited, based on 1")
-    plt.ylabel("normalized distribution")
+    plt.xlabel("cited, based on 10")
+    plt.ylabel("normalized distribution, based on 10")
     plt.loglog(x, y, 'ro')
     plt.show()
 

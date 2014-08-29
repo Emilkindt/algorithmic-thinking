@@ -91,3 +91,45 @@ __绘图__
 
 利用这组数据创建一个双对数坐标图 (在 CodeSkulptor 上只支持 simpleplot 模块).
 注意注明图中各轴的标签和基准 (入度为 0 的节点可以忽略, 因为 `log(0) = - ∞`).
+
+<br>
+
+## Question 2
+
+在 Homework 1 中给出了一个基本的算法 `ER` 来生成一个随机图并对其结果进行简单分析.
+
+```python
+# Algorithm 1: ER.
+# Input: Number of nodes n; probability p.
+# Output: A graph g = (V,E) where g ∈ G(n, p)
+
+ V = {i for i in range(n)}
+ E = {}
+
+for i in V:
+    for j in V:
+        if i != j:
+            a = random.random()
+            if a < p:
+                E[i] = {i, j}
+return E
+```
+
+在这个算法的基础上进行修改, 生成一个随机有向图:
+对于每一对节点 `i` 和 `j`, 改良后的算法应该会进行两次判断,
+首先根据概率参数 `p` 决定是否生成边 `i → j`,
+然后再次根据概率参数 `p` 决定是否生成边 `j → i`.
+
+在这个问题中, 你需要用 `ER` 算法生成一个随机有向图并计算它的 "in-degree distribution",
+以此绘图并与上一题中的引用图进行对比. 在示例算法中给定了概率参数 `p ∈ [0,1]` 和 入度 `k`,
+现在因为我们关注的是入度分布, 故而你可以指定若干个入度分布的例子来决定图形的形状.
+
+通过这个过程来回答以下问题:
+
+- Is the expected in-degree the same for every node in an ER graph?
+Answer yes or no and include a short explanation for your answer.
+- What does the in-degree distribution for an ER graph look like?
+Provide a plot (linear or log-log) of the degree distribution for a small value.
+- Does the shape of the in-degree distribution plot for ER look similar to the
+shape of the in-degree distribution for the citation graph?
+Provide a short explanation of the similarities of differences.
