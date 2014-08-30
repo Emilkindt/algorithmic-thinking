@@ -51,6 +51,7 @@ if __name__ == '__main__':
         x = []
         y = []
         distribution = idd(mER(2000, p, False))
+        print("in-degree distribution is : ", distribution)
         if 0 in distribution.keys():
             distribution.pop(0)
         for k, v in distribution.items():

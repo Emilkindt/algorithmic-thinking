@@ -84,7 +84,7 @@ def loadGraph(originalData):
 
 __绘图__
 
-计算这个有向图的 "in-degree distribution",
+计算这个有向图的 in-degree 分布,
 标准化的格式参考 `project-1` 中实现的函数,
 修改 `in_degree_distribution()` 的循环体, 添加一个计数器统计所有节点,
 然后一个入度分布即 `float(nodes) / float(all_nodes)`.
@@ -120,7 +120,7 @@ return E
 首先根据概率参数 `p` 决定是否生成边 `i → j`,
 然后再次根据概率参数 `p` 决定是否生成边 `j → i`.
 
-在这个问题中, 你需要用 `ER` 算法生成一个随机有向图并计算它的 "in-degree distribution",
+在这个问题中, 你需要用 `ER` 算法生成一个随机有向图并计算它的 in-degree 分布,
 以此绘图并与上一题中的引用图进行对比. 在示例算法中给定了概率参数 `p ∈ [0,1]` 和 入度 `k`,
 现在因为我们关注的是入度分布, 故而你可以指定若干个入度分布的例子来决定图形的形状.
 
@@ -133,3 +133,40 @@ Provide a plot (linear or log-log) of the degree distribution for a small value.
 - Does the shape of the in-degree distribution plot for ER look similar to the
 shape of the in-degree distribution for the citation graph?
 Provide a short explanation of the similarities of differences.
+
+比较两个图参考以下几点:
+
+- 比较两个图中点或线的数量, 以及它们的分布 (是随机分布的还是具有一定的连贯性?).
+- 如果图中的点可以用一条近似的曲线来表示, 比较曲线的形状, 斜率等因素, 分析它们的原因.
+
+## Question 3
+
+通过迭代生成一个随机有向图, 每次迭代添加一个节点并将该节点随机连接到已有节点的子集中.
+子集的选择基于已有节点的 in-degree.
+
+这个函数需要接受两个用户指定的参数: 最终整个图的节点数 `n`,
+以及每次迭代时产生的新节点将连接 `m (m ≤ n)` 个已存在节点.
+
+这个算法首先创建一个拥有 `m` 个节点的完整有向图,
+然后通过不断迭代继续增加 `n - m` 个节点, 其中每个新节点都随机选择连接已有节点来连接.
+在单次迭代过程中, 一个已存在的节点可能会被多次选择, 我们需要消除重复以避免平行边,
+因此在每次迭代结果中, 新节点可能并不会连接到 `m` 个已有节点.
+
+算法参考 `ref/DPA.jpg`
+
+根据 question 1 中的 citation graph(27770,352807), 我们确定 dpa(V,E) 的节点数
+`n = 27770`, 每次增加的边则取平均值 `m = 352807 / 27770 = 12`.
+
+## Question 4
+
+现在我们使用 question 3 中确定的值来实现 DPA 算法, 并绘制 in-degree 分布图.
+这里一个关键的问题是需要避免每次都迭代所有的节点 (参考算法伪码中第 6 行),
+否则这个程序执行起来将会消耗非常长的时间.
+
+上述问题的解决方法可以参考 [这段代码](http://www.codeskulptor.org/#alg_dpa_trial.py)
+实现一个 `DPATrial` 类.
+该类实现了两个方法:
+
+- `__init__(num_nodes)` 方法创建 `DPATrial` 对象, 它是一个拥有 `num_nodes` 个节点的完全图.
+- `run_trial(num_nodes)` 方法运行 `num_nodes` 次 DPA trials (lines 4-6),
+通过概率计算出一组节点, 它们即该次迭代产生的新节点的相邻节点.
