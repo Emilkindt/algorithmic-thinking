@@ -85,7 +85,7 @@ def loadGraph(originalData):
 __绘图__
 
 计算这个有向图的 in-degree 分布,
-标准化的格式参考 `project-1` 中实现的函数,
+标准化的格式参考 `projectOne.py` 中实现的函数,
 修改 `in_degree_distribution()` 的循环体, 添加一个计数器统计所有节点,
 然后一个入度分布即 `float(nodes) / float(all_nodes)`.
 
@@ -170,3 +170,17 @@ Provide a short explanation of the similarities of differences.
 - `__init__(num_nodes)` 方法创建 `DPATrial` 对象, 它是一个拥有 `num_nodes` 个节点的完全图.
 - `run_trial(num_nodes)` 方法运行 `num_nodes` 次 DPA trials (lines 4-6),
 通过概率计算出一组节点, 它们即该次迭代产生的新节点的相邻节点.
+
+即可以通过前边课程已经完成的代码先生成完全图,然后 `for range(m, n)` 迭代产生所有的新节点,
+每次新节点所连接的节点通过调用 `DPATrial` 的一个实例的 `run_trial` 方法计算并将结果添加到已有的图中.
+
+<br>
+
+## Question 5
+
+通过 question 4 的 DPA graph 可以发现, 它与 question 1 的 citation graph 非常相似.
+尝试通过下列理论之一来解释导致这种相似的原因:
+
+- "six degrees of separation"
+- "rich gets richer"
+- "Hierarchical structure of networks"
