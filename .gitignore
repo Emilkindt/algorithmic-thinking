@@ -21,6 +21,8 @@ var/
 *.egg-info/
 .installed.cfg
 *.egg
+DS_Store/
+.DS_Store/
 
 # Installer logs
 pip-log.txt
@@ -51,6 +53,3 @@ coverage.xml
 
 # Sphinx documentation
 docs/_build/
-
-DS_Store/
-.DS_Store/
