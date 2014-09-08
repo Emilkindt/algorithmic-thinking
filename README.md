@@ -3,6 +3,8 @@ algorithmic-thinking
 
 Notes for Algorithmic Thinking by Rice University
 
+# Only for archiving and discussion, Please observe the Honor Code!
+
 <br>
 
 __architecture__
