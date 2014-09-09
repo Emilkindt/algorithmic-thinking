@@ -169,4 +169,8 @@ return d                                                 | O(1)
 efficiency of this algorithm:                             O(n^2)
 ```
 
-### BFS running time - tighter analysis
+对于一个非常密集的图, `O(n^2)` 更接近它的实际效率;
+而对于一个比较稀疏的图, `O(m+n)` 则更接近它的实际效率,
+如果 `m>n` 则也可以直接描述为 `O(m)`.
+
+[More...](https://wiki.python.org/moin/TimeComplexity)
