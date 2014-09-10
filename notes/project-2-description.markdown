@@ -1,8 +1,13 @@
 # Project 2 - Connected components and graph resilience
 
 <br>
+### Overview
 
-![bfs_visited](https://github.com/HexTeto/algorithmic-thinking/blob/master/ref/BFS-CC-Visited.jpg)
+![bfs-visited](https://github.com/HexTeto/algorithmic-thinking/blob/master/ref/BFS-CC-Visited.jpg)
+
+源页面参考[connected components and graph resilience](https://class.coursera.org/algorithmicthink-001/wiki/Programming_assignment_3).
+
+实现代码参考 [projectTwo.py](https://github.com/HexTeto/algorithmic-thinking/blob/master/src/projectTwo.py).
 
 ### Breadth-first search
 
@@ -29,4 +34,4 @@
 __Challenge:__ 因为在 `Module 2` 中计算的图都有几千个节点和边,
 在 CodeSkulptor 中计算这些会非常慢, 尝试使用更加快速的算法来实现 `compute_resilence`.
 
-参考方法 [Disjoint-set data structure](https://en.wikipedia.org/wiki/Disjoint-set_data_structure#Disjoint-set_linked_lists)
+参考方法 [Disjoint-set data structure](https://en.wikipedia.org/wiki/Disjoint-set_data_structure#Disjoint-set_linked_lists).

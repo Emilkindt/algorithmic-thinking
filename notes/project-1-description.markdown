@@ -6,7 +6,7 @@
 
 源页面参考 [mini-project description](https://class.coursera.org/algorithmicthink-001/wiki/graph_degree).
 
-实现代码参考 [project-1.py](https://github.com/HexTeto/algorithmic-thinking/blob/master/src/project-1-devel.py).
+实现代码参考 [projectOne.py](https://github.com/HexTeto/algorithmic-thinking/blob/master/src/projectOne.py).
 
 要求用字典表示一些简单的图, 并实现两个函数计算计算这些图中 "in-degrees" 的分布.
 这些函数会用来实现 `module-1` 中的部分功能, 此外提交的代码使用 Python 2.x 版本.
