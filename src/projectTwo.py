@@ -76,13 +76,13 @@ def compute_resilience(ugraph, attack_order):
     Output:
         a list of connected components
     """
-    seq_ccs = []
-    seq_ccs.append(largest_cc_size(ugraph))
+    components = []
+    components.append(largest_cc_size(ugraph))
     for node in attack_order:
         if node in ugraph.keys():
             for edge in ugraph[node]:
                 ugraph[edge].remove(node)
             ugraph.pop(node)
-            seq_ccs.append(largest_cc_size(ugraph))
+            components.append(largest_cc_size(ugraph))
 
-    return seq_ccs
+    return components

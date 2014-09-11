@@ -77,29 +77,3 @@ def in_degree_distribution(digraph):
             distribution[count] = 0
         distribution[count] += 1
     return distribution
-
-
-if __name__ == '__main__':
-    import sys
-
-    if sys.argv[1] == "-m":
-        print("Test function make_complete_graph():")
-        print(make_complete_graph())
-        print(make_complete_graph({}))
-        print(make_complete_graph("A"))
-        print(make_complete_graph("5.5"))
-        print(make_complete_graph(10.10))
-
-    if sys.argv[1] == "-c":
-        print("Test function compute_in_degrees():")
-        print(compute_in_degrees({}))
-        print(compute_in_degrees(EX_GRAPH0))
-        print(compute_in_degrees(EX_GRAPH1))
-        print(compute_in_degrees(EX_GRAPH2))
-
-    if sys.argv[1] == "-i":
-        print("Test function in_degree_distribution()")
-        print(in_degree_distribution({}))
-        print(in_degree_distribution(EX_GRAPH0))
-        print(in_degree_distribution(EX_GRAPH1))
-        print(in_degree_distribution(EX_GRAPH2))
