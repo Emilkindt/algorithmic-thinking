@@ -11,7 +11,7 @@ includes:
 # import urllib2
 
 import random
-from UPATrial import UPATrial as makeNew
+from UPATrial import UPATrial as upa
 
 
 ############
@@ -169,7 +169,7 @@ def upaGraph(all_nodes, existed_nodes, num_edges):
     iteration to generate a random undirected graph
     """
     ugraph = erGraph(existed_nodes, 1)
-    random_connect = makeNew(existed_nodes)
+    random_connect = upa(existed_nodes)
 
     for new_node in range(existed_nodes, all_nodes):
         new_edges = random_connect.run_trial(num_edges)
@@ -177,4 +177,15 @@ def upaGraph(all_nodes, existed_nodes, num_edges):
         for old_node in new_edges:
             ugraph[old_node].add(new_node)
 
+    return ugraph
+
+def upaPlus(all_nodes, existed_nodes):
+    ugraph = erGraph(existed_nodes, 1)
+    random_connect = upa(existed_nodes)
+
+    for new_node in range(existed_nodes, all_nodes):
+        new_edges = random_connect.run_trial(existed_nodes)
+        ugraph[new_node] = new_edges
+        for old_node in new_edges:
+            ugraph[old_node].add(new_node)
     return ugraph
