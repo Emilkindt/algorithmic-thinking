@@ -34,4 +34,6 @@
 __Challenge:__ 因为在 `Module 2` 中计算的图都有几千个节点和边,
 在 CodeSkulptor 中计算这些会非常慢, 尝试使用更加快速的算法来实现 `compute_resilence`.
 
-参考方法 [Disjoint-set data structure](https://en.wikipedia.org/wiki/Disjoint-set_data_structure#Disjoint-set_linked_lists).
+[参考方法 Disjoint-Sets](https://en.wikipedia.org/wiki/Disjoint-set_data_structure#Disjoint-set_linked_lists).
+
+[另一个更加快速直观的介绍](http://homepages.ius.edu/RWISMAN/C455/html/notes/Chapter21/DisjointSets.htm)
