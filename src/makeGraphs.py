@@ -63,7 +63,7 @@ def targeted_order(ugraph):
     nodes of maximal degree
 
     Returns:
-    A list of nodes
+        A list of nodes
     """
     new_graph = copy_graph(ugraph)
     order = []
@@ -77,6 +77,40 @@ def targeted_order(ugraph):
 
         delete_node(new_graph, max_degree_node)
         order.append(max_degree_node)
+
+    return order
+
+
+def fast_targeted_order(ugraph):
+    """
+    Compute a targeted attack order consisting of
+    nodes of maximal degree.
+    more efficient than targeted_order version.
+
+    Returns:
+        A list of nodes
+    """
+    order = []
+    num_nodes = len(ugraph)
+    new_graph = copy_graph(ugraph)
+    degree_sets = [set() for node in new_graph.keys()]
+
+    for degree in range(num_nodes):
+        for node in new_graph.keys():
+            if len(new_graph[node]) == degree:
+                degree_sets[degree].add(node)
+
+    for degree in range(num_nodes-1, -1, -1):
+        while degree_sets[degree] != set():
+            dmax_node = degree_sets[degree].pop()
+
+            for neighbor in new_graph[dmax_node]:
+                neigh_deg = len(new_graph[neighbor])
+                degree_sets[neigh_deg].remove(neighbor)
+                degree_sets[neigh_deg-1].add(neighbor)
+
+            order.append(dmax_node)
+            delete_node(new_graph, dmax_node)
 
     return order
 
