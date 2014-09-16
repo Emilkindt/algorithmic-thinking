@@ -94,11 +94,22 @@ def fast_targeted_order(ugraph):
     num_nodes = len(ugraph)
     new_graph = copy_graph(ugraph)
     degree_sets = [set() for node in new_graph.keys()]
+    distribution = {}
+
+    for node, edge in new_graph.items():
+        if len(edge) not in distribution:
+            distribution[len(edge)] = set([node])
+        else:
+            distribution[len(edge)].add(node)
 
     for degree in range(num_nodes):
-        for node in new_graph.keys():
-            if len(new_graph[node]) == degree:
-                degree_sets[degree].add(node)
+        if degree in distribution:
+            degree_sets[degree] = distribution[degree]
+
+    #for degree in range(num_nodes):
+    #    for node in new_graph.keys():
+    #        if len(new_graph[node]) == degree:
+    #            degree_sets[degree].add(node)
 
     for degree in range(num_nodes-1, -1, -1):
         while degree_sets[degree] != set():
