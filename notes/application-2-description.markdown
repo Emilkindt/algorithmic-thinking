@@ -59,7 +59,7 @@
 当阅读 `targeted_order` 的代码时, 你会发现它并不是非常高效的, 在计算最大 degree 节点的过程中有大量的重复工作.
 我们将考虑一个替代方案来计算攻击序列.
 
-![targeted_order](https://github.com/HexTeto/algorithmic-thinking/blob/master/ref/alg_fast_targeted.png)
+![targetedorder](https://github.com/HexTeto/algorithmic-thinking/blob/master/ref/alg_fast_targeted.png)
 
 如上图伪码所示, 在 Python 中, 该方法创建一个列表 `degree_sets`, 它的第 `k` 个元素为 `degree = k` 的节点的集合.
 然后逆序迭代该列表, 当它遇到一个非空集合时, 该非空集合内的节点必定就是当前拥有最大 degree 的节点.
@@ -87,3 +87,12 @@
 
 修改 Q1 中的代码，这次使用在 Q3 中实现的 "关键节点优先" 的攻击顺序.
 绘图要求同 Q1.
+
+### Question 5
+
+检查 Q4 的三条曲线, 根据 Q2 的要求进行简要分析.
+
+### Question 6
+
+如果发现了某条曲线在新的攻击模式下具有更好的弹性,
+分析其原因以及一个健壮的网络设计是否应遵循与其类似的模型?
