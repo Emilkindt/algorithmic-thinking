@@ -11,9 +11,7 @@ where cluster_list is a list of clusters in the plane
 """
 
 import math
-import Cluster
-
-
+import alg_cluster
 
 def pair_distance(cluster_list, idx1, idx2):
     """
@@ -23,7 +21,7 @@ def pair_distance(cluster_list, idx1, idx2):
     Returns tuple (dist, idx1, idx2) with idx1 < idx2 where dist is distance between
     cluster_list[idx1] and cluster_list[idx2]
     """
-    return (cluster_list[idx1].distance(cluster_list[idx2]), min(idx1, idx2), max(idx1, idx2))
+    return (cluster_list[idx1].distance(cluster_list[idx2]), idx1, idx2)
 
 
 def slow_closest_pairs(cluster_list):
@@ -35,51 +33,22 @@ def slow_closest_pairs(cluster_list):
     where the cluster_list[idx1] and cluster_list[idx2] have minimum distance dist.
 
     """
-    results = set([])
-    min_dist = float('inf')
-    min_dist_idx1 = None
-    min_dist_idx2 = None
+    min_distance = set([( float('inf'), 0, 0 )])
 
-    elements = len(cluster_list)
-    if elements < 2:
-        return (min_dist, min_dist_idx1, min_dist_idx2)
+    for num_idx1 in xrange(len(cluster_list)):
+        _node_idx1 = cluster_list[num_idx1]
+        num_idx2 = num_idx1+1
 
-    dist = None
-    for idx_i in range(elements):
-        for idx_j in range(idx_i+1, elements):
-            dist = cluster_list[idx_i].distance(cluster_list[idx_j])
-            if dist == min_dist:
-                temp = (dist, min(idx_i, idx_j), max(idx_i, idx_j))
-                results.add(temp)
-            elif dist < min_dist:
-                min_dist = dist
-                min_dist_idx1 = idx_i
-                min_dist_idx2 = idx_j
+        for _node_idx2 in cluster_list[num_idx2:]:
+            new_distance = pair_distance(cluster_list, num_idx1, num_idx2)
 
-    first_idx = min(min_dist_idx1, min_dist_idx2)
-    second_idx = max(min_dist_idx1, min_dist_idx2)
-    temp = (min_dist, first_idx, second_idx)
-    results.add(temp)
-    return results
+            if list(new_distance)[0] < list(min_distance)[0][0]:
+                min_distance = set([new_distance])
+            elif list(new_distance)[0] == list(min_distance)[0][0]:
+                min_distance.add(new_distance)
+            num_idx2+=1
 
-
-#def divide(cluster_list,xsort, ysort):
-#    """
-#    return the median and others
-#    :param xsort:
-#    :param ysort:
-#    """
-#
-#    numpoints = len(xsort)
-#
-#    mid = (cluster_list[xsort[-1]].horiz_center() +
-#           cluster_list[xsort[0]].horiz_center()) / 2
-#    hleft = xsort[:int(numpoints / 2)]
-#    hright = xsort[int(numpoints / 2):]
-#    vleft = ysort[:len(hleft)]
-#    vright = ysort[len(hleft):]
-#
-#    return mid, hleft, vleft, hright, vright
+    return min_distance
 
 
 def fast_closest_pair(cluster_list):
@@ -92,89 +61,75 @@ def fast_closest_pair(cluster_list):
     have the smallest distance dist of any pair of clusters
     """
 
-    def fast_helper(cluster_list, horiz_order, vert_order):
+    def fast_helper(clist, h_order, v_order):
         """
         Divide and conquer method for computing distance between closest pair of points
         Running time is O(n * log(n))
 
-        horiz_order and vert_order are lists of indices for clusters
+        h_order and v_order are lists of indices for clusters
         ordered horizontally and vertically
 
         Returns a tuple (distance, idx1, idx2) with idx1 < idx 2 where
-        cluster_list[idx1] and cluster_list[idx2]
+        clist[idx1] and clist[idx2]
         have the smallest distance dist of any pair of clusters
 
         """
+        def _div(h_order):
+            """
+            divide
+            """
+            return int(math.ceil(len(h_order) / 2.0))
 
         # base case
-        #if len(horiz_order) <= 3:
-        #    return slow_closest_pairs(cluster_list[:3]).pop()
-        #else:
-        #    mid, hleft, vleft, hright, vright = divide(cluster_list,
-        #                                               horiz_order, vert_order)
-        #
-        #    dist0_0, idx0_0, idx1_0 = fast_helper(cluster_list, hleft, vleft)
-        #    dist0_1, idx0_1, idx1_1 = fast_helper(cluster_list, hright, vright)
-        #
-        #    dist, idx0, idx1 = (dist0_0, idx0_0, idx1_0) if dist0_0 < dist0_1 else (dist0_1, idx0_1, idx1_1)
-        #
-        #    sss=[]
-        #    for idx_v in horiz_order:
-        #        if abs(cluster_list[idx_v].horiz_center() - mid) < dist:
-        #            sss.append(idx_v)
-        #    k_in_s = len(sss)
-        #    for idx_i in range(k_in_s):
-        #        for idx_j in range(k_in_s):
-        #            if idx_i != idx_j:
-        #                new_dist = cluster_list[sss[idx_i]].distance(cluster_list[sss[idx_j]])
-        #                if new_dist < dist:
-        #                    dist, idx0, idx1 = (new_dist, sss[idx_i], sss[idx_j])
-        #
-        #return (dist, idx0, idx1)
+        if len(h_order) <= 3:
+            sublist = [clist[h_order[i]]
+                    for i in range(len(h_order))]
+            res = list(slow_closest_pairs(sublist))[0]
+            return res[0], h_order[res[1]], h_order[res[2]]
 
-        num_horiz = len(horiz_order)
-        if num_horiz <= 3:
-            return slow_closest_pairs(cluster_list[:num_horiz])
-        else:
-            mid = int(num_horiz / 2)
-            middle = 0.5 * (cluster_list[horiz_order[mid-1]].horiz_center() +
-                            cluster_list[horiz_order[mid]].horiz_center())
-            horiz_left = horiz_order[0 : mid]
-            horiz_right = horiz_order[mid:]
-            vert_left = vert_order[0 : mid]
-            vert_right = vert_order[mid:]
+        # divide
+        mid = 0.5 * (clist[h_order[_div(h_order) - 1]].horiz_center() +
+                     clist[h_order[_div(h_order)]].horiz_center())
 
-            dist_left, node_i_left, node_j_left = fast_helper(cluster_list, horiz_left, vert_left)
-            dist_right, node_i_right, node_j_right = fast_helper(cluster_list, horiz_left, vert_left)
-            dist, node_i, node_j = min((dist_left, node_i_left, node_j_left), (dist_right, node_i_right, node_j_right))
+        _hlr = h_order[0: _div(h_order)], h_order[_div(h_order): len(h_order)]
+        min_d = min(fast_helper(clist, _hlr[0],
+            [vi for vi in v_order if vi in frozenset(_hlr[0])]),
+            fast_helper(clist, _hlr[1],
+                [vi for vi in v_order if vi in frozenset(_hlr[1])]))
 
-            sss = []
-            for idx_v in vert_order:
-                if abs(cluster_list[idx_v].horiz_center() - middle) < dist:
-                    sss.append(idx_v)
-            k_in_s = len(sss)
-            for idx_u in range(k_in_s - 1):
-                for idx_v in range(idx_u+1, min(u+4, k)):
-                    dist, node_i, node_j = min((dist, node_i, node_j), (cluster_list[sss[idx_u]].distance(cluster_list[sss[idx_v]]), sss[idx_u], sss[idx_v]))
-            return (dist, node_i, node_j)
+        # conquer
+        sss = [vi for vi in v_order if
+                abs(clist[vi].horiz_center() - mid) < min_d[0]]
+
+        for _uuu in range(len(sss) - 1):
+            for _vvv in range(_uuu + 1, min(_uuu + 4, len(sss))):
+                dsuv = clist[sss[_uuu]].distance(clist[sss[_vvv]])
+                min_d = min((min_d), (dsuv, sss[_uuu], sss[_vvv]))
+
+        return min_d[0], min(min_d[1], min_d[2]), max(min_d[1], min_d[2])
 
     # compute list of indices for the clusters ordered in the horizontal direction
     hcoord_and_index = [(cluster_list[idx].horiz_center(), idx)
-                        for idx in range(len(cluster_list))]
+            for idx in range(len(cluster_list))]
+    #  print hcoord_and_index
     hcoord_and_index.sort()
-    horiz_order = [hcoord_and_index[idx][1] for idx in range(len(hcoord_and_index))]
+    #  print hcoord_and_index
+    horiz_order = [hcoord_and_index[idx][1]
+            for idx in range(len(hcoord_and_index))]
 
     # compute list of indices for the clusters ordered in vertical direction
     vcoord_and_index = [(cluster_list[idx].vert_center(), idx)
-                        for idx in range(len(cluster_list))]
+            for idx in range(len(cluster_list))]
     vcoord_and_index.sort()
-    vert_order = [vcoord_and_index[idx][1] for idx in range(len(vcoord_and_index))]
+    vert_order = [vcoord_and_index[idx][1]
+            for idx in range(len(vcoord_and_index))]
 
     # compute answer recursively
+    #  print vert_order[0].real
+    fast_helper(cluster_list, horiz_order, vert_order)
     answer = fast_helper(cluster_list, horiz_order, vert_order)
+    #  return slow_closest_pairs(cluster_list)
     return (answer[0], min(answer[1:]), max(answer[1:]))
-
-
 
 def hierarchical_clustering(cluster_list, num_clusters):
     """
@@ -184,20 +139,49 @@ def hierarchical_clustering(cluster_list, num_clusters):
     Input: List of clusters, number of clusters
     Output: List of clusters whose length is num_clusters
     """
+    new_cluster_list = cluster_list[:]
 
-    return []
+    while len(new_cluster_list) > num_clusters:
+        _, node1, node2 = fast_closest_pair(new_cluster_list)
+        new_cluster_list[node1].merge_clusters(new_cluster_list[node2])
+        del new_cluster_list[node2]
 
-
-
+    return new_cluster_list
 
 def kmeans_clustering(cluster_list, num_clusters, num_iterations):
     """
     Compute the k-means clustering of a set of clusters
+    Note: the function mutates cluster_list
 
     Input: List of clusters, number of clusters, number of iterations
     Output: List of clusters whose length is num_clusters
     """
 
-    # initialize k-means clusters to be initial clusters with largest populations
+    cluster_n = len(cluster_list)
 
-    return []
+    miu_k = sorted(cluster_list,
+              key=lambda c: c.total_population())[-num_clusters:]
+    miu_k = [c.copy() for c in miu_k]
+
+    # n: cluster_n
+    # q: num_iterations
+    for _ in xrange(num_iterations):
+        cluster_result = [alg_cluster.Cluster(set([]), 0, 0, 0, 0) for _ in range(num_clusters)]
+        # put the node into closet center node
+
+        for jjj in xrange(cluster_n):
+            min_num_k = 0
+            min_dist_k = float('inf')
+            for num_k in xrange(len(miu_k)):
+                dist = cluster_list[jjj].distance(miu_k[num_k])
+                if dist < min_dist_k:
+                    min_dist_k = dist
+                    min_num_k = num_k
+
+            cluster_result[min_num_k].merge_clusters(cluster_list[jjj])
+
+        # re-computer its center node
+        for kkk in xrange(len(miu_k)):
+            miu_k[kkk] = cluster_result[kkk]
+
+    return cluster_result
