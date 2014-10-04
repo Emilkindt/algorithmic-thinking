@@ -1,5 +1,4 @@
-"""
-Example code for creating and visualizing
+""" Example code for creating and visualizing
 cluster of county-based cancer risk data
 
 Note that you must download the file
@@ -48,7 +47,7 @@ def load_data_table(data_url):
     data_file = urllib2.urlopen(data_url)
     data = data_file.read()
     data_lines = data.split('\n')
-    print "Loaded", len(data_lines), "data points"
+    print("Loaded", len(data_lines))
     data_tokens = [line.split(',') for line in data_lines]
     return [[tokens[0], float(tokens[1]), float(tokens[2]), int(tokens[3]), float(tokens[4])] 
             for tokens in data_tokens]
@@ -108,7 +107,7 @@ def run_example():
     #print "Displaying", len(cluster_list), "hierarchical clusters"
 
     cluster_list = alg_project3_solution.kmeans_clustering(singleton_list, 9, 5)
-    print "Displaying", len(cluster_list), "k-means clusters"
+    print("Displaying", len(cluster_list), "k-means clusters")
 
     # draw the clusters using matplotlib or simplegui
     if DESKTOP:
@@ -116,4 +115,22 @@ def run_example():
     else:
         alg_clusters_simplegui.PlotClusters(data_table, cluster_list)
     
-run_example()
+
+def compute_distortion():
+    data_table = load_data_table(DATA_111_URL)
+    clist = []
+    for line in data_table:
+        clist.append(alg_cluster.Cluster(set([line[0]]), line[1], line[2], line[3], line[4]))
+
+    #cluster_list = alg_project3_solution.hierarchical_clustering(clist, 9)
+    cluster_list = alg_project3_solution.kmeans_clustering(clist, 9, 5)
+    print(len(cluster_list))
+    errlist = []
+    for idx in cluster_list:
+        err = idx.cluster_error(data_table)
+        errlist.append(err)
+    return sum(errlist)
+
+
+err = compute_distortion()
+print(int(err))
