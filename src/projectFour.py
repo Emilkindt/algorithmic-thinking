@@ -13,8 +13,8 @@ def build_scoring_matrix(alphabet='AGCT',
 
     function returns scoring matrix as a dict of dicts
     '''
-    res = {dmy_i: {dmy_j: off_diag_score for dmy_j in alpha} for dmy_i in alpha}
     alpha = ['-'] + list(alphabet)
+    res = {dmy_i: {dmy_j: off_diag_score for dmy_j in alpha} for dmy_i in alpha}
 
     for idx in alpha:
         res[idx][idx] = diag_score
@@ -60,9 +60,7 @@ def compute_alignment_matrix(seq_x, seq_y, scoring_matrix=build_scoring_matrix()
     return matrix
 
 
-def compute_global_alignment(seq_x, seq_y,
-                             scoring_matrix=build_scoring_matrix(),
-                             alignment_matrix=compute_alignment_matrix()):
+def compute_global_alignment(seq_x, seq_y, scoring_matrix, alignment_matrix):
     '''
     function returns alignment of input sequences
     '''
@@ -75,7 +73,7 @@ def compute_global_alignment(seq_x, seq_y,
 
     while idx_x != 0 and idx_y != 0:
         current_score = alignment_matrix[idx_x][idx_y]
-        if current_score == alignment_matrix[idx_x-1][idx_y-1] +
+        if current_score == alignment_matrix[idx_x-1][idx_y-1] +\
                             scoring_matrix[ seq_x[idx_x-1] ][ seq_y[idx_y-1] ]:
             alignment_x = seq_x[idx_x-1] + alignment_x
             alignment_y = seq_y[idx_y-1] + alignment_y
@@ -83,7 +81,7 @@ def compute_global_alignment(seq_x, seq_y,
             idx_x -= 1
             idx_y -= 1
 
-        elif current_score == alignment_matrix[idx_x-1][idx_y] +
+        elif current_score == alignment_matrix[idx_x-1][idx_y] +\
                               scoring_matrix[ seq_x[idx_x-1] ]['-']:
             alignment_x = seq_x[idx_x-1] + alignment_x
             alignment_y = '-' + alignment_y
@@ -109,9 +107,7 @@ def compute_global_alignment(seq_x, seq_y,
     return (score, alignment_x, alignment_y)
 
 
-def compute_local_alignment(seq_x, seq_y,
-                            scoring_matrix=build_scoring_matrix(),
-                            alignment_matrix=compute_alignment_matrix(global_flag=False)):
+def compute_local_alignment(seq_x, seq_y, scoring_matrix, alignment_matrix):
     '''
     function returns alignment of input sequences
     '''
@@ -132,13 +128,13 @@ def compute_local_alignment(seq_x, seq_y,
         if current_score <= 0:
             break
 
-        if current_score == alignment_matrix[idx_x-1][idx_y-1] +
-                            scoring_matrix[ seq_x[idx_x-1] ][ seq_y[idx-y-1] ]:
+        if current_score == alignment_matrix[idx_x-1][idx_y-1] +\
+                            scoring_matrix[ seq_x[idx_x-1] ][ seq_y[idx_y-1] ]:
             alignment_x = seq_x[idx_x-1] + alignment_x
             alignment_y = seq_y[idx_y-1] + alignment_y
             idx_x -= 1
             idx_y -= 1
-        elif current_score == alignment_matrix[idx_x-1][idx_y] +
+        elif current_score == alignment_matrix[idx_x-1][idx_y] +\
                               scoring_matrix[ seq_x[idx_x-1] ]['-']:
             alignment_x = seq_x[idx_x-1] + alignment_x
             alignment_y = '-' + alignment_y
@@ -146,6 +142,6 @@ def compute_local_alignment(seq_x, seq_y,
         else:
             alignment_x = '-' + alignment_x
             alignment_y = seq_y[idx_y-1] + alignment_y
-            idx+y -= 1
+            idx_y -= 1
 
     return (score, alignment_x, alignment_y)
